@@ -14,7 +14,7 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
   );
 };
 
-const PagoRegistro = () => {
+const Usuarios = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   const toggleSidebar = () => {
