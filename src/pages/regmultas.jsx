@@ -39,7 +39,7 @@ const MultaRegistro = () => {
   const handleFormSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch("http://localhost:5000/api/multas", {
+      const response = await fetch("https://apimultas.onrender.com/api/multas", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
