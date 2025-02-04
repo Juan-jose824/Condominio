@@ -1,6 +1,6 @@
 import React, { useState } from "react";  
 import '../styles/usuarios.css'; // Importa tu archivo de estilos
-
+import fpImage from '../assets/fp.jpg';
 
 const Sidebar = ({ isOpen, toggleSidebar }) => {
   return (
