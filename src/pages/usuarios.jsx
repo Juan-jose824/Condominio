@@ -1,6 +1,6 @@
 import React, { useState } from "react";  
 import '../styles/usuarios.css'; // Importa tu archivo de estilos
-import fpImage from '../assets/fp.jpg';
+
 
 const Sidebar = ({ isOpen, toggleSidebar }) => {
   return (
@@ -28,7 +28,7 @@ const Usuarios = () => {
         <button className="toggle-button" onClick={toggleSidebar}>
           ☰
         </button>
-        <h1>Registro De Pagos</h1>
+        <h1>Vista de usuarios</h1>
       </div>
       <div className="pago-content">
         <div className="pago-left-section">
@@ -50,9 +50,6 @@ const Usuarios = () => {
             <div className="pago-field">
               <label>Pagó con:</label>
               <span>En efectivo</span>
-            </div>
-            <div className="pago-image-container">
-              <img src={fpImage} alt="Imagen" />
             </div>
           </div>
         </div>

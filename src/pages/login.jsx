@@ -28,6 +28,7 @@ function Login() {
       { phone: "3326", password: "123", redirect: "/inicio" }, // Usuario 1
       { phone: "3330", password: "1234", redirect: "/administrador" }, // Usuario 2
       { phone: "3333", password: "12345", redirect: "/administracion" }, // Usuario 3
+      { phone: "0909", password: "0909", redirect: "/usuarios" }, // Usuario 4
     ];
 
     // Verificamos si el teléfono y la contraseña coinciden con algún usuario

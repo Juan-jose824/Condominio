@@ -10,7 +10,6 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
       <div className="menu-item"><a href="/buscador">Buscador</a></div>
       <div className="menu-item"><a href="/regpagos">Registro de pagos</a></div>
       <div className="menu-item"><a href="/regmultas">Registro de multas</a></div>
-      <div className='menu-item'><a href="/usuarios">Vista de usuarios</a></div>
       <div className="menu-item">Gestión de permisos</div>
     </div>
   );
