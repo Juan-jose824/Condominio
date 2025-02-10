@@ -250,3 +250,108 @@
 .right-button:hover {
   background-color: #45a049;
 }
+
+.multa-table {
+  width: 200%; /* Aumenta el ancho de la tabla */
+  table-layout: fixed; /* Fija el ancho de las celdas para que el contenido se distribuya uniformemente */
+  border-collapse: collapse; /* Asegura que los bordes de las celdas no se dupliquen */
+}
+
+.multa-table th {
+  word-wrap: break-word;
+  text-align: left;
+  padding-left: 20px;
+  padding-right: 20px;
+  border-right: 1px solid #ddd; /* Borde derecho para separar las columnas */
+}
+
+.multa-table th:last-child {
+  border-right: none; /* El último encabezado no tendrá borde derecho */
+}
+
+.multa-table td {
+  word-wrap: break-word;
+  text-align: left;
+  padding-left: 20px;
+  padding-right: 20px;
+  border-right: 1px solid #ddd; /* Borde entre las celdas */
+}
+
+.multa-table td:last-child {
+  border-right: none; /* El último td no tendrá borde derecho */
+}
+
+.multa-table-container {
+  overflow-x: auto; /* Permite desplazamiento horizontal si la tabla se extiende más allá del contenedor */
+}
+
+
+
+/* Animación de carga */
+.loading-enter {
+  opacity: 0;
+}
+.loading-enter-active {
+  opacity: 1;
+  transition: opacity 300ms;
+}
+.loading-exit {
+  opacity: 1;
+}
+.loading-exit-active {
+  opacity: 0;
+  transition: opacity 300ms;
+}
+
+/* Animación del modal */
+.modal-enter {
+  opacity: 0;
+}
+.modal-enter-active {
+  opacity: 1;
+  transition: opacity 300ms;
+}
+.modal-exit {
+  opacity: 1;
+}
+.modal-exit-active {
+  opacity: 0;
+  transition: opacity 300ms;
+}
+
+/* Estilos para el modal */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background-color: white;
+  padding: 20px;
+  border-radius: 5px;
+  text-align: center;
+  max-width: 400px;
+  width: 100%;
+}
+
+.modal-content button {
+  background-color: #4caf50;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.modal-content button:hover {
+  background-color: #45a049;
+}
+

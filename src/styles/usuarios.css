@@ -1,5 +1,5 @@
-/* regpagos.css */
-.pago-container {
+/* regusuarios.css */
+.usuario-container {
     width: 100%;
     height: 100vh;
     background-size: cover;
@@ -14,23 +14,26 @@
 }
 
 /* Encabezado */
-.pago-header {
+.usuario-header {
     width: 80%;
     background-color: rgba(255, 255, 255, 0.9);
     text-align: center;
     padding: 15px;
     border-radius: 10px;
     margin-bottom: 20px;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: space-between;
 }
 
-.pago-header h1 {
+.usuario-header h1 {
     margin: 0;
     font-size: 1.8rem;
     color: #333;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%); /* Esto centra el título horizontalmente */
 }
 
 /* Menú lateral */
@@ -91,42 +94,42 @@
     outline: none;
 }
 
-/* Contenido del formulario de pagos */
-.pago-content {
+/* Contenido del formulario de usuarios */
+.usuario-content {
     display: flex;
     width: 80%;
     background-color: rgba(195, 195, 195, 0.9);
     padding: 20px;
     border-radius: 10px;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
     flex-wrap: wrap;
     gap: 20px;
     justify-content: space-between;
 }
 
-.pago-left-section,
-.pago-right-section {
+.usuario-left-section,
+.usuario-right-section {
     flex: 1;
     min-width: 45%;
     display: flex;
     flex-direction: column;
-    gap: 30%;
+    gap: 20px;  /* Ajusté el valor del gap */
     width: 550px;
     height: 550px;
 }
 
-.pago-field {
+.usuario-field {
     display: flex;
     flex-direction: column;
 }
 
-.pago-field label {
+.usuario-field label {
     font-weight: bold;
     color: #555;
     margin-bottom: 5px;
 }
 
-.pago-field span {
+.usuario-field span {
     background-color: #fff;
     padding: 10px;
     border-radius: 50px;
@@ -136,7 +139,7 @@
     width: 60%;
 }
 
-.pago-description p {
+.usuario-description p {
     background-color: #fff;
     padding: 15px;
     border-radius: 40px;
@@ -147,14 +150,14 @@
     height: 130%;
 }
 
-.pago-description label {
+.usuario-description label {
     font-weight: bold;
     color: #555;
     font-size: 1.2rem;
 }
 
 /* Contenedor para la imagen */
-.pago-image-container {
+.usuario-image-container {
     display: flex;
     justify-content: flex-start; /* Alinea la imagen a la izquierda */
     align-items: center;
@@ -163,7 +166,7 @@
 }
 
 /* Estilos para la imagen */
-.pago-image-container img {
+.usuario-image-container img {
     width: 500px; /* Tamaño fijo de ancho */
     height: 200px; /* Tamaño fijo de altura */
     border-radius: 10px; /* Redondea los bordes de la imagen */
@@ -173,23 +176,67 @@
 
 /* Media Queries */
 @media (max-width: 768px) {
-    .pago-content {
+    .usuario-content {
         flex-direction: column;
         align-items: center;
     }
 
-    .pago-left-section,
-    .pago-right-section {
+    .usuario-left-section,
+    .usuario-right-section {
         min-width: 100%;
     }
 
-    .pago-image-container {
+    .usuario-image-container {
         justify-content: center; /* Centra la imagen en pantallas pequeñas */
         padding: 0;
     }
 
-    .pago-image-container img {
+    .usuario-image-container img {
         width: 90%; /* Hace que la imagen sea más pequeña en dispositivos pequeños */
         transform: translateX(0); /* Elimina el desplazamiento hacia la izquierda en pantallas pequeñas */
     }
 }
+
+/* Botón de notificaciones */
+.notification-button {
+    background: transparent;
+    border: none;
+    color: #555;
+    cursor: pointer;
+    position: relative;
+    margin-left: auto; /* Esto mueve el botón hacia la derecha */
+}
+
+.notification-badge {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background-color: red;
+    color: white;
+    border-radius: 50%;
+    padding: 5px 10px;
+    font-size: 12px;
+}
+
+/* Estilo para la ventana de notificaciones */
+.notification-window {
+    position: fixed;
+    top: 0;
+    right: 0;
+    height: 100vh; /* Ocupar toda la altura de la pantalla */
+    width: 250px; /* Ajusta el ancho a lo que consideres necesario */
+    background-color: rgba(0, 0, 0, 0.8); /* Fondo semi-transparente */
+    color: white;
+    padding: 20px;
+    display: none; /* Se oculta por defecto */
+    flex-direction: column;
+    gap: 20px;
+    z-index: 2000; /* Asegura que quede sobre otros elementos */
+    overflow-y: auto; /* Permite desplazarse si el contenido excede la altura */
+}
+
+/* Cuando la ventana está abierta */
+.notification-window.open {
+    display: flex; /* Muestra la ventana cuando está abierta */
+}
+

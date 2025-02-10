@@ -1,5 +1,4 @@
-import React, { useState } from "react";
-
+import React, { useState, useEffect } from "react";
 import "../styles/regmultas.css";
 
 const Sidebar = ({ isOpen, toggleSidebar }) => {
@@ -22,6 +21,7 @@ const MultaRegistro = () => {
     fecha: "",
     comentario: "",
   });
+  const [multas, setMultas] = useState([]);
 
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
@@ -60,6 +60,7 @@ const MultaRegistro = () => {
         });
 
         toggleForm();
+        fetchMultas(); // Refrescar la lista de multas
       } else {
         console.error("Error al registrar la multa");
         alert("Hubo un error al registrar la multa");
@@ -69,6 +70,25 @@ const MultaRegistro = () => {
       alert("No se pudo conectar con el servidor");
     }
   };
+
+  const fetchMultas = async () => {
+    try {
+      const response = await fetch("https://apimultas.onrender.com/api/multas");
+      const data = await response.json();
+      
+      // Ordena las multas por la fecha, de la más reciente a la más antigua
+      const sortedMultas = data.sort((a, b) => new Date(b.fecha) - new Date(a.fecha));
+      
+      setMultas(sortedMultas); // Establece las multas ordenadas
+    } catch (error) {
+      console.error("Error al obtener las multas:", error);
+    }
+  };
+  
+
+  useEffect(() => {
+    fetchMultas(); // Obtener las multas al cargar el componente
+  }, []);
 
   return (
     <div className="multa-container">
@@ -84,24 +104,36 @@ const MultaRegistro = () => {
       </div>
       <div className="multa-content">
         <div className="multa-left-section">
-          <div className="multa-field">
-            <label>Coto No.</label>
-            <span>{formData.coto || "Esperando..."}</span>
-          </div>
-          <div className="multa-field">
-            <label>Monto De La Multa:</label>
-            <span>{formData.monto ? `$${formData.monto}` : "Esperando..."}</span>
-          </div>
+          {/* Aquí se muestra la tabla con las multas */}
+          <table className="multa-table">
+            <thead>
+              <tr>
+                <th>Coto No.</th>
+                <th>Monto</th>
+                <th>Fecha</th>
+                <th>Descripción</th>
+              </tr>
+            </thead>
+            <tbody>
+              {multas.length > 0 ? (
+                multas.map((multa, index) => (
+                  <tr key={index}>
+                    <td>{multa.coto}</td>
+                    <td>${multa.monto}</td>
+                    <td>{new Date(multa.fecha).toLocaleDateString()}</td>
+                    <td>{multa.comentario}</td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td colSpan="4">No hay multas registradas.</td>
+                </tr>
+              )}
+            </tbody>
+          </table>
         </div>
         <div className="multa-right-section">
-          <div className="multa-field">
-            <label>Fecha De La Multa:</label>
-            <span>{formData.fecha || "Esperando..."}</span>
-          </div>
-          <div className="multa-description">
-            <label>Descripción De La Multa:</label>
-            <p>{formData.comentario || "Esperando..."}</p>
-          </div>
+
         </div>
       </div>
 

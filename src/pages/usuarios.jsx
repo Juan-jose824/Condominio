@@ -1,58 +1,70 @@
-import React, { useState } from "react";  
+import React, { useState } from "react";
 import '../styles/usuarios.css'; // Importa tu archivo de estilos
-
+import { Bell } from "lucide-react"; // Icono de campana para notificaciones
 
 const Sidebar = ({ isOpen, toggleSidebar }) => {
   return (
     <div className={`sidebar ${isOpen ? "open" : ""}`}>
-      <div className="role">Administrador</div>
-      <div className="menu-item"><a href="/buscador">Buscador</a></div>
-      {/* <div className="menu-item"><a href="/pagos">Registro de pagos</a></div> */}
-      <div className="menu-item"><a href="/regmultas">Registro de multas</a></div>
-      <div className="menu-item">Gestión de permisos</div>
+      <div className="role">Usuario</div>
     </div>
   );
 };
 
 const Usuarios = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [notifications, setNotifications] = useState(3); // Ejemplo de 3 notificaciones
+  const [isNotificationWindowOpen, setIsNotificationWindowOpen] = useState(false);
 
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
   };
 
+  const toggleNotificationWindow = () => {
+    setIsNotificationWindowOpen(!isNotificationWindowOpen);
+  };
+
   return (
-    <div className="pago-container">
+    <div className="usuario-container">
       <Sidebar isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
-      <div className="pago-header">
+      <div className="usuario-header">
         <button className="toggle-button" onClick={toggleSidebar}>
           ☰
         </button>
         <h1>Vista de usuarios</h1>
+        <button className="notification-button" onClick={toggleNotificationWindow}>
+          <Bell size={24} />
+          {notifications > 0 && <span className="notification-badge">{notifications}</span>}
+        </button>
       </div>
-      <div className="pago-content">
-        <div className="pago-left-section">
-          <div className="pago-field">
-            <label>Coto No.</label>
-            <span>54</span>
+      <div className="usuario-content">
+        <div className="usuario-left-section">
+          <div className="usuario-field">
+            <label>Matrícula:</label>
+            <span>123456</span>
           </div>
-          <div className="pago-field">
-            <label>Pagó:</label>
-            <span>$2,500.°°</span>
+          <div className="usuario-field">
+            <label>Nombre:</label>
+            <span>Juan Pérez</span>
           </div>
         </div>
-        <div className="pago-right-section">
-          <div className="pago-field">
-            <label>Fecha Del Pago:</label>
+        <div className="usuario-right-section">
+          <div className="usuario-field">
+            <label>Fecha de Registro:</label>
             <span>18/12/24</span>
           </div>
-          <div className="pago-description">
-            <div className="pago-field">
-              <label>Pagó con:</label>
-              <span>En efectivo</span>
-            </div>
+          <div className="usuario-description">
+            <label>Descripción:</label>
+            <p>Este es un ejemplo de descripción del usuario.</p>
           </div>
         </div>
+      </div>
+      <div className={`notification-window ${isNotificationWindowOpen ? "open" : ""}`}>
+        <h3>Notificaciones</h3>
+        <ul>
+          <li>Notificación 1</li>
+          <li>Notificación 2</li>
+          <li>Notificación 3</li>
+        </ul>
       </div>
     </div>
   );
