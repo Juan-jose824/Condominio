@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
+import { CSSTransition } from "react-transition-group"; // Import CSSTransition
 import "../styles/regmultas.css";
 
 const Sidebar = ({ isOpen, toggleSidebar }) => {
@@ -22,6 +23,11 @@ const MultaRegistro = () => {
     comentario: "",
   });
   const [multas, setMultas] = useState([]);
+  const [isLoading, setIsLoading] = useState(false); // Loading state
+  const [modalVisible, setModalVisible] = useState(false); // Modal visibility
+  const [modalMessage, setModalMessage] = useState(""); // Modal message
+
+  const formRef = useRef(null); // Refs to detect clicks outside the form
 
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
@@ -38,6 +44,7 @@ const MultaRegistro = () => {
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
+    setIsLoading(true); // Show loading
     try {
       const response = await fetch("https://apimultas.onrender.com/api/multas", {
         method: "POST",
@@ -50,8 +57,8 @@ const MultaRegistro = () => {
       if (response.ok) {
         const data = await response.json();
         console.log("Multa registrada:", data);
-        alert("Multa registrada con éxito");
-
+        setModalMessage("Multa registrada con éxito");
+        setModalVisible(true);
         setFormData({
           coto: "",
           monto: "",
@@ -59,15 +66,20 @@ const MultaRegistro = () => {
           comentario: "",
         });
 
-        toggleForm();
-        fetchMultas(); // Refrescar la lista de multas
+        // Agregar la nueva multa al principio del array
+        setMultas((prevMultas) => [data, ...prevMultas]);
+
       } else {
         console.error("Error al registrar la multa");
-        alert("Hubo un error al registrar la multa");
+        setModalMessage("Hubo un error al registrar la multa");
+        setModalVisible(true);
       }
     } catch (error) {
       console.error("Error de conexión:", error);
-      alert("No se pudo conectar con el servidor");
+      setModalMessage("No se pudo conectar con el servidor");
+      setModalVisible(true);
+    } finally {
+      setIsLoading(false); // Hide loading
     }
   };
 
@@ -76,7 +88,7 @@ const MultaRegistro = () => {
       const response = await fetch("https://apimultas.onrender.com/api/multas");
       const data = await response.json();
       
-      // Ordena las multas por la fecha, de la más reciente a la más antigua
+      // Ordenar las multas por fecha de forma descendente (más reciente primero)
       const sortedMultas = data.sort((a, b) => new Date(b.fecha) - new Date(a.fecha));
       
       setMultas(sortedMultas); // Establece las multas ordenadas
@@ -84,7 +96,20 @@ const MultaRegistro = () => {
       console.error("Error al obtener las multas:", error);
     }
   };
-  
+
+  // Close form if click outside
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (formRef.current && !formRef.current.contains(event.target)) {
+        setIsFormVisible(false); // Close form
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   useEffect(() => {
     fetchMultas(); // Obtener las multas al cargar el componente
@@ -104,7 +129,6 @@ const MultaRegistro = () => {
       </div>
       <div className="multa-content">
         <div className="multa-left-section">
-          {/* Aquí se muestra la tabla con las multas */}
           <table className="multa-table">
             <thead>
               <tr>
@@ -132,13 +156,13 @@ const MultaRegistro = () => {
             </tbody>
           </table>
         </div>
-        <div className="multa-right-section">
-
-        </div>
       </div>
 
       {/* Formulario deslizante */}
-      <div className={`multa-form-container ${isFormVisible ? "open" : ""}`}>
+      <div
+        ref={formRef}
+        className={`multa-form-container ${isFormVisible ? "open" : ""}`}
+      >
         <h2>Crear Nueva Multa</h2>
         <form onSubmit={handleFormSubmit}>
           <div className="multa-field">
@@ -181,9 +205,27 @@ const MultaRegistro = () => {
               required
             ></textarea>
           </div>
-          <button type="submit">Registrar Multa</button>
+          <button type="submit" disabled={isLoading}>
+            {isLoading ? "Cargando..." : "Registrar Multa"}
+          </button>
         </form>
       </div>
+
+      {/* Transition for loading and modal */}
+      <CSSTransition in={isLoading} timeout={300} classNames="fade" unmountOnExit>
+        <div className="loading-overlay">
+          <span>Cargando...</span>
+        </div>
+      </CSSTransition>
+
+      <CSSTransition in={modalVisible} timeout={300} classNames="fade" unmountOnExit>
+        <div className="modal">
+          <div className="modal-content">
+            <p>{modalMessage}</p>
+            <button onClick={() => setModalVisible(false)}>Cerrar</button>
+          </div>
+        </div>
+      </CSSTransition>
     </div>
   );
 };
