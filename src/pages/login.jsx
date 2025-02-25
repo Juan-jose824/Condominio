@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom"; 
-import axios from 'axios';  // Para manejar las peticiones HTTP
+import { useNavigate } from "react-router-dom";
+import axios from 'axios';  
 import "../styles/login.css";
 
 function Login() {
@@ -9,33 +9,30 @@ function Login() {
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
 
-  const handleClearPhone = () => {
-    setPhone("");
-  };
-
-  const togglePasswordVisibility = () => {
-    setShowPassword(!showPassword);
-  };
-
-  const handleRegisterClick = () => {
-    navigate("/registro"); 
-  };
+  const handleClearPhone = () => setPhone("");
+  const togglePasswordVisibility = () => setShowPassword(!showPassword);
+  const handleRegisterClick = () => navigate("/registro");
 
   const handleLogin = async (e) => {
     e.preventDefault();
-
+  
     try {
-      // Realiza una petición a tu API para autenticar al usuario
-      const response = await axios.post('/api/auth/login', { phone, password });
-
-      // Si la autenticación es exitosa, se recibe un token JWT
+      // Verifica qué datos estás enviando
+      console.log("Datos enviados al backend:", { phone, password });
+  
+      // Enviar los datos al backend con los nombres correctos
+      const response = await axios.post('http://localhost:5000/api/auth/login', { 
+        num_cel: phone,  // Asegúrate de enviar 'num_cel' en lugar de 'phone'
+        password: password 
+      });
+  
       const { token, role } = response.data;
-
-      // Guarda el token y el rol en el localStorage
+  
+      // Guardar token en el almacenamiento local y en el backend
       localStorage.setItem('token', token);
       localStorage.setItem('role', role);
-
-      // Redirige según el rol
+  
+      // Redirigir según el rol
       if (role === 'administrador') {
         navigate("/administrador");
       } else if (role === 'usuario') {
@@ -44,6 +41,7 @@ function Login() {
         navigate("/inicio");
       }
     } catch (error) {
+      console.error("Error al iniciar sesión:", error.response ? error.response.data : error);
       alert("Número de teléfono o contraseña incorrectos");
     }
   };
@@ -61,12 +59,7 @@ function Login() {
               required
             />
             {phone && (
-              <span
-                className="clear-icon"
-                onClick={handleClearPhone}
-              >
-                ✖
-              </span>
+              <span className="clear-icon" onClick={handleClearPhone}>✖</span>
             )}
           </div>
 
@@ -78,10 +71,7 @@ function Login() {
               onChange={(e) => setPassword(e.target.value)}
               required
             />
-            <span
-              className="toggle-password"
-              onClick={togglePasswordVisibility}
-            >
+            <span className="toggle-password" onClick={togglePasswordVisibility}>
               {showPassword ? "👁️" : "🙈"}
             </span>
           </div>
@@ -90,20 +80,14 @@ function Login() {
         </form>
 
         <div className="register-box">
-          <p>
-            ¿No tienes cuenta? Crea una cuenta
-          </p>
+          <p>¿No tienes cuenta? Crea una cuenta</p>
           <button className="register-button" onClick={handleRegisterClick}>Regístrate</button>
         </div>
       </div>
 
       <div className="login-right">
         <h2>Condominios</h2>
-        <p>
-          Bienvenidos a los condominios, lugar donde podrás disfrutar de un
-          vecindario cómodo y relajante, y apartamentos limpios con buenas
-          comodidades.
-        </p>
+        <p>Bienvenidos a los condominios, donde podrás disfrutar de un vecindario cómodo y relajante, con apartamentos limpios y buenas comodidades.</p>
       </div>
     </div>
   );
