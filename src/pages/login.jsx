@@ -17,34 +17,25 @@ function Login() {
     e.preventDefault();
   
     try {
-      // Verifica qué datos estás enviando
       console.log("Datos enviados al backend:", { phone, password });
   
-      // Enviar los datos al backend con los nombres correctos
       const response = await axios.post('http://localhost:5000/api/auth/login', { 
-        num_cel: phone,  // Asegúrate de enviar 'num_cel' en lugar de 'phone'
+        num_cel: phone, 
         password: password 
       });
   
-      const { token, role } = response.data;
+      const { message, userId } = response.data;
   
-      // Guardar token en el almacenamiento local y en el backend
-      localStorage.setItem('token', token);
-      localStorage.setItem('role', role);
-  
-      // Redirigir según el rol
-      if (role === 'administrador') {
-        navigate("/administrador");
-      } else if (role === 'usuario') {
-        navigate("/usuarios");
-      } else {
-        navigate("/inicio");
-      }
+      // Si el login es exitoso, puedes almacenar el ID de usuario o token en el localStorage
+      localStorage.setItem('userId', userId);
+      // Redirigir a la página correspondiente según el rol del usuario
+      navigate("/dashboard");  // Ejemplo de redirección
     } catch (error) {
       console.error("Error al iniciar sesión:", error.response ? error.response.data : error);
       alert("Número de teléfono o contraseña incorrectos");
     }
   };
+  
 
   return (
     <div className="login-container">
