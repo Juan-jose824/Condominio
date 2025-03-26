@@ -24,19 +24,27 @@ function Login() {
         password: password 
       });
   
-      const { message, userId } = response.data;
+      const { message, userId, rol } = response.data;
   
-      // Si el login es exitoso, puedes almacenar el ID de usuario o token en el localStorage
+      // Guardar información en el localStorage
       localStorage.setItem('userId', userId);
-      // Redirigir a la página correspondiente según el rol del usuario
-      navigate("/dashboard");  // Ejemplo de redirección
+      localStorage.setItem('userRole', rol);
+
+      // Redirigir según el rol del usuario
+      if (rol === "administrador") {
+        navigate("/administrador");
+      } else if (rol === "usuario") {
+        navigate("/usuarios");
+      } else {
+        alert("Rol no reconocido");
+      }
+      
     } catch (error) {
       console.error("Error al iniciar sesión:", error.response ? error.response.data : error);
       alert("Número de teléfono o contraseña incorrectos");
     }
   };
   
-
   return (
     <div className="login-container">
       <div className="login-left">
