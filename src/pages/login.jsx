@@ -12,6 +12,7 @@ function Login() {
   const handleClearPhone = () => setPhone("");
   const togglePasswordVisibility = () => setShowPassword(!showPassword);
   const handleRegisterClick = () => navigate("/registro");
+  const handleForgotPasswordClick = () => navigate("/recuperar");
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -79,9 +80,16 @@ function Login() {
         </form>
 
         <div className="register-box">
-          <p>¿No tienes cuenta? Crea una cuenta</p>
-          <button className="register-button" onClick={handleRegisterClick}>Regístrate</button>
+          <div className="register-option">
+            <p>¿No tienes cuenta? Crea una cuenta</p>
+            <button className="register-button" onClick={handleRegisterClick}>Regístrate</button>
+          </div>
+            <div className="forgot-password">
+              <p>¿Olvidaste tu contraseña?</p>
+              <button className="register-button" onClick={handleForgotPasswordClick}>Recuperar</button>
+            </div>
         </div>
+
       </div>
 
       <div className="login-right">
