@@ -9,6 +9,7 @@ import Regpagos from './pages/regpagos';
 import Regmultas from './pages/regmultas';
 import Usuarios from './pages/usuarios';
 import Recuperar from './pages/recuperar';
+import Recpass from './pages/recpass';
 // import Gespermisos from './pages/gespermisos';
 
 const App = () => (
@@ -24,6 +25,8 @@ const App = () => (
       <Route path="/regmultas" element={<Regmultas />} />
       <Route path='/usuarios' element={<Usuarios />} />
       <Route path='/recuperar' element={<Recuperar />} />
+      <Route path='/recuperar/:token' element={<Recpass />} />
+
      {/* <Route path="/gespermisos" element={<Gespermisos />} /> */}
     </Routes>
   </Router>
